@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.9.0">
+  <bpmn:process id="queryingeventsubscriptions" name="queryingeventsubscriptions" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_ProcessStarted" name="Process&#10;started">
+      <bpmn:outgoing>SequenceFlow1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_MessageReceived" name="message received">
+      <bpmn:incoming>SequenceFlow_0w9ywyl</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow1" sourceRef="StartEvent_ProcessStarted" targetRef="TimerEvent_30SecPassed" />
+    <bpmn:sequenceFlow id="SequenceFlow_1x1u3x6" sourceRef="ReceiveTask_WaitForMessage" targetRef="ScriptTask_PrintSuccess" />
+    <bpmn:receiveTask id="ReceiveTask_WaitForMessage" name="wait for message" messageRef="Message_0wm1nd0">
+      <bpmn:incoming>SequenceFlow_0ny7sqx</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1x1u3x6</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1jf5t6h" sourceRef="BoundaryTimerEvent_5SecPassed" targetRef="ScriptTask_PrintFail" />
+    <bpmn:endEvent id="EndEvent_NoMessageReceived" name="no message received">
+      <bpmn:incoming>SequenceFlow_1jva8ur</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1jva8ur" sourceRef="ScriptTask_PrintFail" targetRef="EndEvent_NoMessageReceived" />
+    <bpmn:boundaryEvent id="BoundaryTimerEvent_5SecPassed" name="60 seconds passed" attachedToRef="ReceiveTask_WaitForMessage">
+      <bpmn:outgoing>SequenceFlow_1jf5t6h</bpmn:outgoing>
+      <bpmn:timerEventDefinition>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT60S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0w9ywyl" sourceRef="ScriptTask_PrintSuccess" targetRef="EndEvent_MessageReceived" />
+    <bpmn:scriptTask id="ScriptTask_PrintSuccess" name="print &#34;message received&#34;" scriptFormat="javascript">
+      <bpmn:incoming>SequenceFlow_1x1u3x6</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0w9ywyl</bpmn:outgoing>
+      <bpmn:script><![CDATA[print("message received")]]></bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="ScriptTask_PrintFail" name="print &#34;no message received in time&#34;" scriptFormat="javascript">
+      <bpmn:incoming>SequenceFlow_1jf5t6h</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1jva8ur</bpmn:outgoing>
+      <bpmn:script><![CDATA[print("no message received in time")]]></bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0ny7sqx" sourceRef="TimerEvent_30SecPassed" targetRef="ReceiveTask_WaitForMessage" />
+    <bpmn:intermediateCatchEvent id="TimerEvent_30SecPassed" name="30 seconds passed">
+      <bpmn:incoming>SequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ny7sqx</bpmn:outgoing>
+      <bpmn:timerEventDefinition>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT30S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:textAnnotation id="TextAnnotation_0jsoabh">    <bpmn:text>this is only for clean up of instances that missed its message</bpmn:text>
+</bpmn:textAnnotation>
+    <bpmn:association id="Association_1rts5t8" sourceRef="BoundaryTimerEvent_5SecPassed" targetRef="TextAnnotation_0jsoabh" />
+  </bpmn:process>
+  <bpmn:message id="Message_0wm1nd0" name="my_message" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="queryingeventsubscriptions">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_ProcessStarted">
+        <dc:Bounds x="106" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="104" y="138" width="40" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0fkea3f_di" bpmnElement="EndEvent_MessageReceived">
+        <dc:Bounds x="643" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="616" y="138" width="90" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_08va5r8_di" bpmnElement="SequenceFlow1">
+        <di:waypoint xsi:type="dc:Point" x="142" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="200" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="126" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1x1u3x6_di" bpmnElement="SequenceFlow_1x1u3x6">
+        <di:waypoint xsi:type="dc:Point" x="405" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="472" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="438.5" y="98.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ReceiveTask_0tu0ic1_di" bpmnElement="ReceiveTask_WaitForMessage">
+        <dc:Bounds x="305" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1jf5t6h_di" bpmnElement="SequenceFlow_1jf5t6h">
+        <di:waypoint xsi:type="dc:Point" x="345" y="178" />
+        <di:waypoint xsi:type="dc:Point" x="345" y="234" />
+        <di:waypoint xsi:type="dc:Point" x="472" y="234" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="360" y="199.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0qmiy98_di" bpmnElement="EndEvent_NoMessageReceived">
+        <dc:Bounds x="643" y="216" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="631" y="255" width="60" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1jva8ur_di" bpmnElement="SequenceFlow_1jva8ur">
+        <di:waypoint xsi:type="dc:Point" x="572" y="234" />
+        <di:waypoint xsi:type="dc:Point" x="643" y="234" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="607.5" y="212.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BoundaryEvent_15666mi_di" bpmnElement="BoundaryTimerEvent_5SecPassed">
+        <dc:Bounds x="327" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="376" y="171" width="57" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0w9ywyl_di" bpmnElement="SequenceFlow_0w9ywyl">
+        <di:waypoint xsi:type="dc:Point" x="572" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="643" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="607.5" y="98.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_19z6emh_di" bpmnElement="ScriptTask_PrintSuccess">
+        <dc:Bounds x="472" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_05ghzdh_di" bpmnElement="ScriptTask_PrintFail">
+        <dc:Bounds x="472" y="194" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ny7sqx_di" bpmnElement="SequenceFlow_0ny7sqx">
+        <di:waypoint xsi:type="dc:Point" x="236" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="305" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="270.5" y="98.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_00oufna_di" bpmnElement="TimerEvent_30SecPassed">
+        <dc:Bounds x="200" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="190" y="141" width="57" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0jsoabh_di" bpmnElement="TextAnnotation_0jsoabh">
+        <dc:Bounds x="212" y="254" width="156" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1rts5t8_di" bpmnElement="Association_1rts5t8">
+        <di:waypoint xsi:type="dc:Point" x="338" y="176" />
+        <di:waypoint xsi:type="dc:Point" x="303" y="254" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
