@@ -24,8 +24,8 @@ As explained above correlating a message that no one is waiting for causes an un
 
 ```java
 SubscriptionQuery subscriptionQuery = runtimeService.createEventSubscriptionQuery()
-				.eventName("my_message")
-				.eventType("message");
+		.eventName("my_message")
+		.eventType("message");
 List<EventSubscription> eventSubscriptions = subscriptionQuery.list();
 ```
 The listing above shows how a query on event subscriptions is used. The example code queries for subscriptions that match the following requirements:
@@ -64,8 +64,8 @@ The initial reflex on the circumstance to have process instance IDs is to query 
 
 ```java
 VariableInstanceQuery variableInstanceQuery = runtimeService.createVariableInstanceQuery()
-				.processInstanceIdIn(processInstanceIds.toArray(new String[processInstanceIds.size()]))
-				.variableValueEquals("aCorrelationKey", "a value used for correlation");
+		.processInstanceIdIn(processInstanceIds.toArray(new String[processInstanceIds.size()]))
+		.variableValueEquals("aCorrelationKey", "a value used for correlation");
 List<VariableInstance> variableInstances = variableInstanceQuery.list();
 ```
 
