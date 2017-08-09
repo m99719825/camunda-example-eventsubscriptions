@@ -56,7 +56,7 @@ List<String> processInstanceIds = new ArrayList<String>();
 
 for (EventSubscription eventSubscription : eventSubscriptions) {
   String processInstanceId = eventSubscription.getProcessInstanceId();
-	processInstanceIds.add(processInstanceId);
+  processInstanceIds.add(processInstanceId);
 }
 ```
 
