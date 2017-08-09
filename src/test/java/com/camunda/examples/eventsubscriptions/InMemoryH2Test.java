@@ -1,4 +1,4 @@
-package com.camunda.examples.eventqueryissue.nonarquillian;
+package com.camunda.examples.eventsubscriptions;
 
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.assertThat;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.init;
